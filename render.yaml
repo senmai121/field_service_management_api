@@ -1,9 +1,9 @@
 services:
   - type: web
     name: field-service-management-api
-    runtime: go
-    buildCommand: go build -tags netgo -ldflags '-s -w' -o app ./cmd/server
-    startCommand: ./app
+    runtime: docker
+    region: singapore
+    plan: free
     envVars:
       - key: DATABASE_URL
         sync: false
