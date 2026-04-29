@@ -66,7 +66,12 @@ func ListAssetsBySite(db *pgxpool.Pool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		siteID := chi.URLParam(r, "id")
 		rows, err := db.Query(r.Context(),
-			assetSelectQuery+` WHERE a.customer_site_id = $1 AND a.status = 'active' ORDER BY a.name`,
+			assetSelectQuery+` WHERE a.customer_site_id = $1 AND a.status = 'active'
+AND a.id NOT IN (
+  SELECT asset_id FROM fsm.work_orders
+  WHERE asset_id IS NOT NULL
+    AND status NOT IN ('completed', 'cancelled')
+) ORDER BY a.name`,
 			siteID,
 		)
 		if err != nil {

@@ -136,6 +136,11 @@ func main() {
 
 		// Technician self-service
 		r.Get("/api/fsm/my-work-orders", handlers.GetMyWorkOrders(pool))
+
+		// Dashboard analytics
+		r.Get("/api/fsm/dashboard/work-order-status", handlers.GetWorkOrderStatus(pool))
+		r.Get("/api/fsm/dashboard/on-time-completion", handlers.GetOnTimeCompletion(pool))
+		r.Get("/api/fsm/dashboard/technician-hours", handlers.GetTechnicianHours(pool))
 	})
 
 	addr := ":" + cfg.Port
